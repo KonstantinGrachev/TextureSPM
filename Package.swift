@@ -40,7 +40,11 @@ let package = Package(
         .library(
             name: "TextureIGListKitExtensions",
             targets: ["TextureIGListKitExtensions"]
-        )
+        ),
+        .library(
+            name: "TextureBootstrap",
+            targets: ["TextureBootstrap"]
+        ),
     ],
     dependencies: [
         .package(url: "https://github.com/pinterest/PINRemoteImage.git", from: "3.0.4"),
@@ -74,6 +78,9 @@ let package = Package(
                 // Always disabled for SPM
                 .define("IG_LIST_COLLECTION_VIEW", to: "0"),
 
+                // Initialization
+                .define("AS_INITIALIZE_FRAMEWORK_MANUALLY", to: "1"),
+                
                 // Header search paths
                 .headerSearchPath("."),
                 .headerSearchPath("include/AsyncDisplayKit"),  // For quoted-style imports
@@ -104,7 +111,8 @@ let package = Package(
                 .headerSearchPath("TextExperiment/String"),
                 .headerSearchPath("TextExperiment/Utility"),
                 .headerSearchPath("TextKit"),
-                .headerSearchPath("tvOS")
+                .headerSearchPath("tvOS"),
+                .define("AS_INITIALIZE_FRAMEWORK_MANUALLY", to: "1")
             ],
             linkerSettings: [
                 .linkedLibrary("c++")
@@ -128,6 +136,10 @@ let package = Package(
                 // proper @MainActor annotations, we can migrate to Swift 6 mode.
                 .swiftLanguageMode(.v5)
             ]
+        ),
+        .target(
+            name: "TextureBootstrap",
+            dependencies: ["AsyncDisplayKit"]
         )
     ],
     cLanguageStandard: .c11,
